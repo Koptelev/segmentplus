@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сегмент+ | Предложение</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .proposal-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            height: calc(100vh - 4rem);
+        }
+
+        .proposal-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            overflow-y: auto;
+        }
+
+        .proposal-sidebar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tariff-card {
+            padding: 1.5rem;
+            background: var(--background-color);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tariff-card.selected {
+            border: 2px solid var(--primary-color);
+        }
+
+        .tariff-card .title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tariff-card .price {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tariff-card .features {
+            margin-bottom: 1rem;
+        }
+
+        .tariff-card .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tariff-card .feature i {
+            color: var(--success-color);
+        }
+
+        .proposal-summary {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: 0.5rem;
+        }
+
+        .proposal-summary .title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .proposal-summary .total {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-top: 1rem;
+        }
+
+        /* Новые стили для оформления блоков и таблиц */
+        .info-block,
+        .proposal-content table {
+            background: var(--background-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-block h3,
+        .proposal-content table h3 {
+             margin-top: 0;
+             margin-bottom: 1rem;
+        }
+
+         .info-block ul,
+         .info-block p {
+             margin-bottom: 0;
+         }
+
+        .proposal-content table {
+             width: 100%;
+             border-collapse: collapse;
+        }
+
+        .proposal-content th,
+        .proposal-content td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .proposal-content th {
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .proposal-content tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+         .proposal-content td[rowspan] {
+             vertical-align: top;
+         }
+
+         .tariff-cards-container {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+             gap: 1.5rem;
+             margin-top: 1.5rem;
+         }
+
+         .tariff-card {
+             padding: 1.5rem;
+             background: white;
+             border-radius: 1rem;
+             box-shadow: var(--shadow-sm);
+             cursor: pointer;
+             transition: all 0.2s ease-in-out;
+             border: 2px solid transparent; /* Добавляем прозрачную границу для selected состояния */
+         }
+
+          .tariff-card:hover {
+              transform: translateY(-2px);
+              box-shadow: var(--shadow-md);
+          }
+
+         .tariff-card.selected {
+             border-color: var(--primary-color);
+             box-shadow: var(--shadow-lg);
+         }
+
+         .tariff-card .title {
+             font-size: 1.25rem;
+             font-weight: 700;
+             margin-bottom: 1rem;
+         }
+
+          .tariff-card .price {
+              font-size: 1.75rem;
+              color: var(--primary-color);
+              margin-bottom: 1.5rem;
+              font-weight: 700;
+          }
+
+          .tariff-card .price small {
+              font-size: 1rem;
+              font-weight: 400;
+              color: var(--text-color);
+          }
+
+          .tariff-card .features ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+          }
+
+          .tariff-card .features li {
+               display: flex;
+               align-items: flex-start;
+               margin-bottom: 0.75rem;
+               color: var(--text-color);
+          }
+
+          .tariff-card .features i {
+              color: var(--success-color);
+              margin-right: 0.5rem;
+              font-size: 1rem;
+               margin-top: 0.2rem;
+          }
+
+           .tariff-card .features li:last-child {
+               margin-bottom: 0;
+           }
+
+        /* Стили для индикатора прогресса */
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 400px; /* Ограничиваем ширину */
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            color: var(--secondary-color);
+        }
+
+        .progress-step.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-step .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            border: 2px solid var(--border-color);
+        }
+
+        .progress-step.active .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .progress-line {
+            flex-grow: 1;
+            height: 2px;
+            background-color: var(--border-color);
+            margin: 0 0.5rem;
+        }
+
+         /* Добавляем стили для активной линии */
+        .progress-step.active + .progress-line {
+             background-color: var(--primary-color);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="Сегмент+" class="logo">
+                <h2>Сегмент+</h2>
+            </div>
+            
+            <div class="sidebar-actions">
+                <a href="index.html" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Вернуться к сценарию
+                </a>
+                <a href="index.html" class="btn-secondary">
+                    <i class="fas fa-home"></i>
+                    На главную
+                </a>
+            </div>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Предложение</h1>
+                <div class="progress-indicator">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <div class="progress-step">
+                            <span class="step-number">1</span>
+                            <span class="step-label">Начало</span>
+                        </div>
+                    </a>
+                    <div class="progress-line"></div>
+                    <a href="analysis.html" style="text-decoration: none; color: inherit;">
+                        <div class="progress-step">
+                            <span class="step-number">2</span>
+                            <span class="step-label">Анализ</span>
+                        </div>
+                    </a>
+                    <div class="progress-line"></div>
+                    <a href="proposal.html" style="text-decoration: none; color: inherit;">
+                        <div class="progress-step active">
+                            <span class="step-number">3</span>
+                            <span class="step-label">Предложение</span>
+                        </div>
+                    </a>
+                </div>
+            </header>
+
+            <div class="proposal-container">
+                <!-- Основной контент предложения -->
+                <div class="proposal-content" id="proposal-content">
+                    <div id="tariff-cards-container" class="tariff-cards-container">
+                         <!-- Интерактивные карточки тарифов будут добавлены через JavaScript -->
+                    </div>
+
+                    <h3>Тарифные планы (в таблице):</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Наименование</th>
+                                <th>Объем клиентской базы Лицензиата</th>
+                                <th>Стоимость в месяц, в руб.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Тарифный план «Стартовый»</td>
+                                <td>До 4000</td>
+                                <td>4 900</td>
+                            </tr>
+                            <tr>
+                                <td>Тарифный план «Бизнес»</td>
+                                <td>До 12000</td>
+                                <td>12 000</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">Тарифный план «Оптимальный»</td>
+                                <td>До 24000</td>
+                                <td>24 000</td>
+                            </tr>
+                             <tr>
+                                 <td>До 36000</td>
+                                 <td>36 000</td>
+                             </tr>
+                              <tr>
+                                  <td>До 48000</td>
+                                  <td>48 000</td>
+                              </tr>
+                               <tr>
+                                   <td>До 60000</td>
+                                   <td>60 000</td>
+                               </tr>
+                            <tr>
+                                <td>Тарифный план «Энтерпрайз»</td>
+                                <td>Свыше 60000</td>
+                                <td>От 70 000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Тарифный план «Филиальная сеть»:</h3>
+                     <table>
+                         <thead>
+                             <tr>
+                                 <th>Наименование</th>
+                                 <th>Объем клиентской базы Лицензиата</th>
+                                 <th>Стоимость в месяц, в руб.</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>Тарифный план «Филиальная сеть», до 10 филиалов</td>
+                                 <td>До 100000 суммарно по филиалам</td>
+                                 <td>От 40 000</td>
+                             </tr>
+                         </tbody>
+                     </table>
+
+                    <h3>Дополнительные услуги:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Наименование</th>
+                                <th>Стоимость за 1 час, в руб.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Доработка программы для ЭВМ «Сегмент+»</td>
+                                <td>3 600</td>
+                            </tr>
+                            <tr>
+                                <td>Работы по адаптации (интеграции) программы для ЭВМ «Сегмент+»</td>
+                                <td>3 600</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!-- Боковая панель с итогами -->
+                <div class="proposal-sidebar">
+                    <div class="proposal-summary">
+                        <div class="title">Итоги звонка</div>
+                        <div id="call-summary">
+                            <!-- Итоги звонка будут добавлены через JavaScript -->
+                        </div>
+                        <div class="total">
+                            Итоговая стоимость: <span id="total-price">0</span> ₽/мес
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="proposal.js"></script>
+</body>
+</html> 

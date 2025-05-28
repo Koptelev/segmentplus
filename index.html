@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сегмент+ | Умный помощник продаж</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="Сегмент+" class="logo">
+                <h2>Сегмент+</h2>
+            </div>
+            
+            <div class="client-info">
+                <h3>Информация о клиенте</h3>
+                <div class="input-group">
+                    <label for="lpr-name">
+                        <i class="fas fa-user"></i>
+                        Имя ЛПР
+                    </label>
+                    <input type="text" id="lpr-name" placeholder="Введите имя ЛПР">
+                </div>
+                
+                <div class="input-group">
+                    <label for="company-name">
+                        <i class="fas fa-building"></i>
+                        Компания
+                    </label>
+                    <input type="text" id="company-name" placeholder="Название компании">
+                </div>
+                
+                <div class="input-group">
+                    <label for="manager-name">
+                        <i class="fas fa-user-tie"></i>
+                        Менеджер
+                    </label>
+                    <input type="text" id="manager-name" placeholder="Ваше имя">
+                </div>
+
+                <button id="save-client-data" class="btn-primary">
+                    <i class="fas fa-save"></i>
+                    Сохранить
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="navigation-buttons">
+                    <a href="analysis.html" class="btn-primary">
+                        <i class="fas fa-chart-bar"></i>
+                        Анализ
+                    </a>
+                    <a href="proposal.html" class="btn-primary">
+                        <i class="fas fa-file-alt"></i>
+                        Предложение
+                    </a>
+                    <a href="features.html" class="btn-primary">
+                        <i class="fas fa-list-alt"></i>
+                        Функционал
+                    </a>
+                    <a href="editor.html" class="btn-secondary">
+                        <i class="fas fa-edit"></i>
+                        Редактор сценариев
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Умный помощник продаж</h1>
+            </header>
+
+            <div class="buttons">
+                <button id="back-btn" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <button id="home-btn" class="btn-secondary">
+                    <i class="fas fa-home"></i> На главную
+                </button>
+            </div>
+
+            <div class="scenario-container">
+                <div id="stage-text" class="scenario-text">
+                    Загрузка сценариев...
+                </div>
+                <div id="options" class="options-container"></div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

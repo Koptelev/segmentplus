@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сегмент+ | Функционал</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .features-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            overflow-y: auto;
+        }
+
+        /* Стили для таблицы */
+        .features-container table {
+             width: 100%;
+             border-collapse: collapse;
+             margin-bottom: 1.5rem;
+             background: var(--background-color);
+             border-radius: 0.5rem;
+             overflow: hidden; /* Для скругления углов */
+             box-shadow: var(--shadow-sm);
+        }
+
+        .features-container th,
+        .features-container td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .features-container th {
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.05);
+            width: 30%; /* Примерная ширина для первой колонки */
+        }
+
+        .features-container tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+         .features-container td ul {
+             padding-left: 1.5rem;
+             margin: 0;
+         }
+
+          .features-container td li {
+              margin-bottom: 0.5rem;
+          }
+
+           .features-container td li:last-child {
+               margin-bottom: 0;
+           }
+
+            .features-container h3 {
+                margin-top: 2rem;
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+             .features-container h4 {
+                 margin-top: 1.5rem;
+                 margin-bottom: 1rem;
+             }
+
+
+        /* Удаляем старые стили для блоков */
+        /*.info-block {
+            background: var(--background-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }*/
+
+        /*.info-block h3 {
+             margin-top: 0;
+             margin-bottom: 1rem;
+        }*/
+
+        /* .info-block ul,
+         .info-block p {
+             margin-bottom: 0;
+         }*/
+
+        /* .info-block ul {
+             list-style: none;
+             padding: 0;
+             margin: 0;
+         }*/
+
+        /* .info-block li {
+             margin-bottom: 0.75rem;
+             color: var(--text-color);
+         }*/
+
+        /* .info-block li i {
+             color: var(--success-color);
+             margin-right: 0.5rem;
+             font-size: 1rem;
+              margin-top: 0.2rem;
+         }*/
+
+        /* .info-block li::before {
+             content: '\f00c'; /* FontAwesome check icon */
+             /*font-family: "Font Awesome 6 Free";
+             font-weight: 900;
+             color: var(--success-color);
+             margin-right: 0.5rem;
+         }*/
+
+         /* .info-block li:last-child {
+              margin-bottom: 0;
+          }*/
+
+          /*  .info-block h4 {
+               margin-top: 1.5rem;
+               margin-bottom: 1rem;
+           }*/
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="Сегмент+" class="logo">
+                <h2>Сегмент+</h2>
+            </div>
+            
+            <div class="sidebar-actions">
+                 <a href="index.html" class="btn-secondary">
+                     <i class="fas fa-home"></i>
+                     На главную
+                 </a>
+            </div>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Функционал</h1>
+            </header>
+
+            <div class="features-container">
+
+                <h3>Включено в стоимость тарифа</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Настройка личного кабинета</td>
+                            <td>
+                                <ul>
+                                    <li>Создание личного кабинета.</li>
+                                    <li>Загрузка данных из всех доступных систем клиента.</li>
+                                    <li>Настройка шаблонов сообщений и других параметров. Шаблоны сообщений настраиваются совместно с клиентом.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Подключение каналов рассылок</td>
+                            <td>
+                                <ul>
+                                    <li>WhatsApp через сервис WhatsApp Green API. Он включает максимум 300-500 сообщений в день; оптимально 100-200 сообщений в день. А для нового номера, который ранее не использовался для отправки и получения сообщений в WhatsApp — от 30 сообщений в сутки, потом увеличиваем.</li>
+                                    <li>Создание одного Телеграм-бота по шаблону демо-бота с логотипом и контентом клиента. Обновление контента возможно раз в месяц.</li>
+                                    <li>Создание одного VK-бота по аналогии с Телеграм-ботом. Обновление контента возможно раз в месяц.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Интеграции с действующими сервисами клиента</td>
+                            <td>
+                                <ul>
+                                    <li>Сайт, интернет-магазин, веб-приложения.</li>
+                                    <li>Сервисы сквозной аналитики.</li>
+                                    <li>Электронные карты Wallet, Google Pay.</li>
+                                    <li>Сервисы email-рассылок, смс-рассылок.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                         <tr>
+                             <td>Обучение клиента</td>
+                             <td>
+                                 <ul>
+                                     <li>Обучение использованию личного кабинета, включая отчеты и создание коммуникаций.</li>
+                                     <li>Инструкция в личном кабинете.</li>
+                                     <li>Консультации по использованию личного кабинета</li>
+                                 </ul>
+                             </td>
+                         </tr>
+                          <tr>
+                              <td>Круглосуточная техподдержка по общим вопросам.</td>
+                              <td>Круглосуточная техподдержка по общим вопросам.</td>
+                          </tr>
+                           <tr>
+                               <td>Аналитика по ML-рассылкам</td>
+                               <td>
+                                   <ul>
+                                       <li>При проведении ML-рассылок помогаем измерить конверсии.</li>
+                                       <li>Учитывая разнообразие поставленных задач, отчеты могут иметь различные форматы.</li>
+                                       <li>Аналитику предоставляем клиенту по запросу.</li>
+                                   </ul>
+                               </td>
+                           </tr>
+                            <tr>
+                                <td>Техническая поддержка</td>
+                                <td>
+                                    <ul>
+                                        <li>Помощь с устранением технических проблем.</li>
+                                        <li>Центр поддержки принимает обращения круглосуточно и передает консультантам в работу.</li>
+                                        <li>Консультанты центра поддержки работают по графику: в будни с 9:00 до 21:00 екб, в выходные с 12:00 до 21:00 екб.</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+
+                 <h3>Не включено в тариф</h3>
+                 <table>
+                     <thead>
+                         <tr>
+                             <th>Наименование</th>
+                             <th>Описание</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr>
+                             <td></td>
+                             <td>
+                                 <p>∗ Ниже перечислены дополнительные каналы коммуникаций и платные интеграции. Оплату клиент осуществляет сторонним поставщикам, которых выбирает на свое усмотрение, либо поставщику своей учетной системы.</p>
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>Электронные карты Wallet, Google Pay</td>
+                             <td>от 5000 руб. в месяц.</td>
+                         </tr>
+                          <tr>
+                              <td>Смс-рассылки</td>
+                              <td>примерно 4 руб. за сообщение.</td>
+                          </tr>
+                           <tr>
+                               <td>Еmail-рассылки</td>
+                               <td>от 1000 руб. в месяц за любой сервис рассылки.</td>
+                           </tr>
+                            <tr>
+                                <td>VK notify</td>
+                                <td>40 коп. за исходящее сообщение.</td>
+                            </tr>
+                             <tr>
+                                 <td>WhatsApp Business API (официальный WhatsApp без рисков блокировки)</td>
+                                 <td>6 руб. за сообщение.</td>
+                             </tr>
+                              <tr>
+                                  <td>Другие сторонние сервисы рассылок через WhatsApp.</td>
+                                  <td></td>
+                              </tr>
+                              <tr>
+                                  <td><h4>Платные интеграции</h4></td>
+                                  <td></td>
+                              </tr>
+                              <tr>
+                                   <td>Инфоклиника</td>
+                                   <td>от 10 000 руб. в месяц.</td>
+                              </tr>
+                               <tr>
+                                   <td>Dental 4 Windows</td>
+                                   <td>от 40 000 руб. в год.</td>
+                               </tr>
+                                <tr>
+                                    <td>UNIVERSE-SOFT</td>
+                                    <td>15 000 руб. за филиал единоразово.</td>
+                                </tr>
+                                 <tr>
+                                     <td>И другие.</td>
+                                     <td></td>
+                                 </tr>
+                     </tbody>
+                 </table>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html> 

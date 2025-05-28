@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ звонка | Сегмент+</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .analysis-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            height: calc(100vh - 4rem);
+        }
+
+        .call-log {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 1rem;
+            border-left: 4px solid var(--border-color);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .log-entry.good {
+            border-left-color: var(--success-color);
+        }
+
+        .log-entry.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .log-entry.error {
+            border-left-color: #ef4444;
+        }
+
+        .log-entry .time {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .log-entry .text {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .log-entry .analysis {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            padding: 0.5rem;
+            background: var(--background-color);
+            border-radius: 0.5rem;
+        }
+
+        .analysis-sidebar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .analysis-summary {
+            margin-bottom: 2rem;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: 0.5rem;
+        }
+
+        .summary-item i {
+            font-size: 1.5rem;
+        }
+
+        .summary-item.good i {
+            color: var(--success-color);
+        }
+
+        .summary-item.warning i {
+            color: #f59e0b;
+        }
+
+        .summary-item.error i {
+            color: #ef4444;
+        }
+
+        .summary-item .text {
+            flex: 1;
+        }
+
+        .summary-item .title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-item .description {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .recommendations {
+            margin-top: 2rem;
+        }
+
+        .recommendation-item {
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-item .title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recommendation-item .description {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .transcript-upload {
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--background-color);
+            margin: 1rem 0;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--primary-color);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area p {
+            margin: 1rem 0;
+            color: var(--text-color);
+        }
+
+        .upload-btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .upload-btn i {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .script-compliance {
+            margin-top: 2rem;
+        }
+
+        .compliance-item {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .compliance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .compliance-score {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .compliance-details {
+            font-size: 0.9rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-item.found {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
+
+        .detail-item.missing {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .navigation-buttons .btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .navigation-buttons .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .navigation-buttons .btn-secondary {
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .navigation-buttons .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Стили для индикатора прогресса */
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 400px; /* Ограничиваем ширину */
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            color: var(--secondary-color);
+        }
+
+        .progress-step.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-step .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            border: 2px solid var(--border-color);
+        }
+
+        .progress-step.active .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .progress-line {
+            flex-grow: 1;
+            height: 2px;
+            background-color: var(--border-color);
+            margin: 0 0.5rem;
+        }
+
+         /* Добавляем стили для активной линии */
+        .progress-step.active + .progress-line {
+             background-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="Сегмент+" class="logo">
+                <h2>Сегмент+</h2>
+            </div>
+            
+            <div class="navigation-buttons">
+                <a href="index.html" class="btn-secondary">
+                    <i class="fas fa-home"></i>
+                    На главную
+                </a>
+                 <a href="index.html" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Вернуться к сценарию
+                </a>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="navigation-buttons">
+                    <a href="index.html" class="btn-secondary">
+                        <i class="fas fa-home"></i>
+                        На главную
+                    </a>
+                     <a href="index.html" class="btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Вернуться к сценарию
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Анализ звонка</h1>
+                <div class="progress-indicator">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <div class="progress-step">
+                            <span class="step-number">1</span>
+                            <span class="step-label">Начало</span>
+                        </div>
+                    </a>
+                    <div class="progress-line"></div>
+                    <a href="analysis.html" style="text-decoration: none; color: inherit;">
+                        <div class="progress-step active">
+                            <span class="step-number">2</span>
+                            <span class="step-label">Анализ</span>
+                        </div>
+                    </a>
+                    <div class="progress-line"></div>
+                    <a href="proposal.html" style="text-decoration: none; color: inherit;">
+                        <div class="progress-step">
+                            <span class="step-number">3</span>
+                            <span class="step-label">Предложение</span>
+                        </div>
+                    </a>
+                </div>
+            </header>
+
+            <div class="analysis-container">
+                <!-- Загрузка транскрипции -->
+                <div class="transcript-upload">
+                    <div class="upload-area" id="drop-zone">
+                        <i class="fas fa-file-upload"></i>
+                        <h3>Загрузите транскрипцию звонка</h3>
+                        <p>Перетащите файл сюда или нажмите для выбора</p>
+                        <input type="file" id="file-input" accept=".txt" style="display: none;">
+                        <button class="btn-primary" onclick="document.getElementById('file-input').click()">
+                            Выбрать файл
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Результаты анализа -->
+                <div id="transcript-analysis" style="display: none;">
+                    <div class="analysis-sections">
+                        <!-- Общий анализ -->
+                        <div id="general-analysis" class="analysis-section">
+                            <h3>Общий результат</h3>
+                            <div class="analysis-overview">
+                                <div class="score-chart">
+                                    <canvas id="analysisChart"></canvas>
+                                </div>
+                                <div class="score-summary">
+                                    <div class="score">0%</div>
+                                    <div class="summary-text">
+                                        <p>Общий показатель соответствия скрипту</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Детальный анализ -->
+                        <div class="analysis-grid">
+                            <!-- Приветствие -->
+                            <div class="analysis-card">
+                                <h4>Приветствие</h4>
+                                <div class="score" id="greeting-score">0%</div>
+                                <div class="details" id="greeting-details"></div>
+                                <div class="recommendations-block" id="greeting-recommendations"></div>
+                            </div>
+
+                            <!-- Выявление потребностей -->
+                            <div class="analysis-card">
+                                <h4>Выявление потребностей</h4>
+                                <div class="score" id="needs-score">0%</div>
+                                <div class="details" id="needs-details"></div>
+                                <div class="recommendations-block" id="needs-recommendations"></div>
+                            </div>
+
+                            <!-- Презентация решения -->
+                            <div class="analysis-card">
+                                <h4>Презентация решения</h4>
+                                <div class="score" id="solution-score">0%</div>
+                                <div class="details" id="solution-details"></div>
+                                <div class="recommendations-block" id="solution-recommendations"></div>
+                            </div>
+
+                            <!-- Работа с возражениями -->
+                            <div class="analysis-card">
+                                <h4>Работа с возражениями</h4>
+                                <div class="score" id="objections-score">0%</div>
+                                <div class="details" id="objections-details"></div>
+                                <div class="recommendations-block" id="objections-recommendations"></div>
+                            </div>
+                        </div>
+
+                        <!-- Общие рекомендации -->
+                        <div class="recommendations">
+                            <h3>Ключевые рекомендации</h3>
+                            <div class="recommendations-grid" id="key-recommendations">
+                                <!-- Рекомендации будут добавлены динамически -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Добавляем Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="analysis.js"></script>
+</body>
+</html> 
