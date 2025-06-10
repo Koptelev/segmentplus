@@ -1,6 +1,7 @@
 let scenarios = [];
 let currentStage = 0;
 let history = [];
+let currentScenario = 'retail';
 let clientData = {
     lprName: "не указано",
     companyName: "не указано",
@@ -20,12 +21,18 @@ async function loadScenarios() {
 }
 
 function replacePlaceholders(text) {
+    const businessTypes = {
+        retail: "розничной торговли",
+        beauty: "бьюти-индустрии",
+        medical: "медицинской сферы"
+    };
+
     return text
         .replace(/\[Имя\]/g, clientData.managerName)
         .replace(/\[Имя ЛПР\]/g, clientData.lprName)
         .replace(/\[Имя менеджера\]/g, clientData.managerName)
         .replace(/\[Название организации\]/g, clientData.companyName)
-        .replace(/\[сфера клиента\]/g, "розничной торговли");
+        .replace(/\[сфера клиента\]/g, businessTypes[currentScenario] || "розничной торговли");
 }
 
 function displayStage(stageId) {
@@ -116,15 +123,6 @@ function goHome() {
 document.getElementById("back-btn").onclick = goBack;
 document.getElementById("home-btn").onclick = goHome;
 
-document.getElementById("save-client-data").onclick = () => {
-    clientData = {
-        lprName: document.getElementById("lpr-name").value || "не указано",
-        companyName: document.getElementById("company-name").value || "не указано",
-        managerName: document.getElementById("manager-name").value || "не указано"
-    };
-    displayStage(currentStage);
-};
-
 document.getElementById("lpr-name").addEventListener("input", () => {
     clientData.lprName = document.getElementById("lpr-name").value || "не указано";
     displayStage(currentStage);
@@ -198,10 +196,54 @@ function loadCallData() {
     }
 }
 
+// Функция для переключения сценариев
+function switchScenario(scenario) {
+    currentScenario = scenario;
+    history = [];
+    currentStage = 0;
+    
+    // Обновляем активную кнопку
+    document.querySelectorAll('.scenario-buttons .btn-primary').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.getElementById(`${scenario}-scenario`).classList.add('active');
+    
+    // Обновляем текст в зависимости от сценария
+    const scenarioTexts = {
+        retail: "розничной торговли",
+        beauty: "бьюти-индустрии",
+        medical: "медицинской сферы"
+    };
+
+    const scenarioTitles = {
+        retail: "Розница",
+        beauty: "Бьюти",
+        medical: "Медицина"
+    };
+    
+    // Обновляем заголовок
+    document.querySelector('.content-header h1').textContent = `Умный помощник продаж. ${scenarioTitles[scenario]}`;
+    
+    clientData = {
+        ...clientData,
+        businessType: scenarioTexts[scenario]
+    };
+    
+    displayStage(0);
+}
+
 // Инициализация
 document.addEventListener('DOMContentLoaded', () => {
     loadScenarios();
     loadCallData();
+    
+    // Устанавливаем начальный сценарий
+    switchScenario('retail');
+    
+    // Добавляем обработчики для кнопок сценариев
+    document.getElementById('retail-scenario').addEventListener('click', () => switchScenario('retail'));
+    document.getElementById('beauty-scenario').addEventListener('click', () => switchScenario('beauty'));
+    document.getElementById('medical-scenario').addEventListener('click', () => switchScenario('medical'));
     
     // Добавляем кнопку завершения звонка
     const endCallBtn = document.createElement('button');
