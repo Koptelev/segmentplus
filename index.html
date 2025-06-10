@@ -13,7 +13,7 @@
         <!-- Боковая панель -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="logo.png" alt="Сегмент+" class="logo">
+                <img src="logo.png" alt="Логотип Сегмент+" class="logo">
                 <h2>Сегмент+</h2>
             </div>
             
@@ -42,11 +42,24 @@
                     </label>
                     <input type="text" id="manager-name" placeholder="Ваше имя">
                 </div>
+            </div>
 
-                <button id="save-client-data" class="btn-primary">
-                    <i class="fas fa-save"></i>
-                    Сохранить
-                </button>
+            <div class="scenario-selector">
+                <h3>Выбор сценария</h3>
+                <div class="scenario-buttons">
+                    <button id="retail-scenario" class="btn-primary active" aria-label="Сценарий для розничной торговли">
+                        <i class="fas fa-store"></i>
+                        Розница
+                    </button>
+                    <button id="beauty-scenario" class="btn-primary" aria-label="Сценарий для бьюти-индустрии">
+                        <i class="fas fa-spa"></i>
+                        Бьюти
+                    </button>
+                    <button id="medical-scenario" class="btn-primary" aria-label="Сценарий для медицинской отрасли">
+                        <i class="fas fa-heartbeat"></i>
+                        Медицина
+                    </button>
+                </div>
             </div>
 
             <div class="sidebar-footer">
@@ -63,10 +76,6 @@
                         <i class="fas fa-list-alt"></i>
                         Функционал
                     </a>
-                    <a href="editor.html" class="btn-secondary">
-                        <i class="fas fa-edit"></i>
-                        Редактор сценариев
-                    </a>
                 </div>
             </div>
         </aside>
@@ -78,10 +87,10 @@
             </header>
 
             <div class="buttons">
-                <button id="back-btn" class="btn-secondary">
+                <button id="back-btn" class="btn-secondary" aria-label="Вернуться на предыдущую страницу">
                     <i class="fas fa-arrow-left"></i> Назад
                 </button>
-                <button id="home-btn" class="btn-secondary">
+                <button id="home-btn" class="btn-secondary" aria-label="Вернуться на главную страницу">
                     <i class="fas fa-home"></i> На главную
                 </button>
             </div>
